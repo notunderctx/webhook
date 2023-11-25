@@ -1,4 +1,4 @@
-const url = "https://ca63-102-135-169-127.ngrok-free.app/hook";
+const url = "https:localhost:5000/hook";
 
 const data = {
   message: "..................",
