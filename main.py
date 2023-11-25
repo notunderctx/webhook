@@ -6,15 +6,24 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 import os
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 
 load_dotenv()
 app = Flask(__name__)
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://",
+)
 sender_email = os.environ.get("sender")
 password = os.environ.get("password")
 
 
 @app.route("/hook/", methods=["POST"])
+@limiter.limit("1 per day")
 def main():
     msg = data.form.get("message")
 
